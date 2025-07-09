@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -10,17 +10,33 @@ export class TodoService {
   }
 
   async createTodo(title: string) {
-    return this.prisma.todo.create({ data: { title } });
+    if (!title || title.trim() === '') {
+      throw new Error('Title cannot be empty');
+    }
+
+    return this.prisma.todo.create({
+      data: { title: title.trim() },
+    });
   }
 
-  async toggleTodo(id: number, completed: boolean) {
+  async toggleTodo(id: number) {
+    const todo = await this.prisma.todo.findUnique({ where: { id } });
+    if (!todo) {
+      throw new NotFoundException(`Todo with id ${id} not found`);
+    }
+
     return this.prisma.todo.update({
       where: { id },
-      data: { completed },
+      data: { completed: !todo.completed },
     });
   }
 
   async deleteTodo(id: number) {
+    const todo = await this.prisma.todo.findUnique({ where: { id } });
+    if (!todo) {
+      throw new NotFoundException(`Todo with id ${id} not found`);
+    }
+
     return this.prisma.todo.delete({ where: { id } });
   }
 }
