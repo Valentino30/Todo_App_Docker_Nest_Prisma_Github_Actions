@@ -4,12 +4,36 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// ====================================================
+// 🔧 GENERATOR CONFIGURATION
+// This tells Prisma to generate the Prisma Client JS,
+// and where to output it.
+// ====================================================
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
+// ====================================================
+// 🛢️ DATABASE CONNECTION (DATASOURCE)
+// Defines how Prisma connects to your database.
+// Never hardcode credentials here — use environment vars.
+// ====================================================
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// ====================================================
+// 🧱 DATA MODELS
+// Define all your tables/entities here.
+// Prisma will use these to generate the DB schema
+// and the typed client.
+// ====================================================
+
+model Todo {
+  id        Int     @id @default(autoincrement()) // Unique identifier
+  title     String                              // The text of the to-do
+  completed Boolean @default(false)             // Whether it's done
+  createdAt DateTime @default(now())            // Timestamp for sorting, etc.
 }
