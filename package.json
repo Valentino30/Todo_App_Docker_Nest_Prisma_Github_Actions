@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:rebuild": "docker compose down && docker compose up --build -d"
+  },
   "devDependencies": {
     "typescript": "^5.8.3"
   }
