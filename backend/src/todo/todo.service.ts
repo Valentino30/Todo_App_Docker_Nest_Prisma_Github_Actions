@@ -10,10 +10,6 @@ export class TodoService {
   }
 
   async createTodo(title: string) {
-    if (!title || title.trim() === '') {
-      throw new Error('Title cannot be empty');
-    }
-
     return this.prisma.todo.create({
       data: { title: title.trim() },
     });

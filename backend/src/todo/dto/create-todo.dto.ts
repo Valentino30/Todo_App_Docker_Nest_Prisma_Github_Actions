@@ -2,6 +2,6 @@ import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateTodoDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Title cannot be empty' })
   title!: string;
 }
