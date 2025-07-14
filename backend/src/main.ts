@@ -7,8 +7,10 @@ import { AllExceptionsFilter } from './common/filters/http-exeption.filters';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Global error handler
   app.useGlobalFilters(new AllExceptionsFilter());
 
+  // Global request validation
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // Strip properties not defined in DTOs
@@ -17,6 +19,7 @@ async function bootstrap() {
     }),
   );
 
+  // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('Todo API')
     .setDescription('API for your very important todo app')
