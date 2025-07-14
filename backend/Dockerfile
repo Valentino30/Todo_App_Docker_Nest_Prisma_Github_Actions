@@ -8,18 +8,18 @@ WORKDIR /app
 COPY tsconfig.base.json .
 
 # 2. Copy backend config + Prisma files BEFORE npm ci
-COPY apps/backend/package.json apps/backend/
-COPY apps/backend/package-lock.json apps/backend/
-COPY apps/backend/prisma apps/backend/prisma
-COPY apps/backend/tsconfig.json apps/backend/
-COPY apps/backend/tsconfig.build.json apps/backend/
+COPY backend/package.json backend/
+COPY backend/package-lock.json backend/
+COPY backend/prisma backend/prisma
+COPY backend/tsconfig.json backend/
+COPY backend/tsconfig.build.json backend/
 
 # 3. Install dependencies (this will run `prisma generate` via postinstall)
-WORKDIR /app/apps/backend
+WORKDIR /app/backend
 RUN npm ci
 
 # 4. Copy source files AFTER deps
-COPY apps/backend .
+COPY backend .
 
 # 5. Build
 RUN npm run build
@@ -31,10 +31,10 @@ FROM node:20-alpine
 WORKDIR /app
 
 # 1. Copy app
-COPY --from=builder /app/apps/backend/dist ./dist
-COPY --from=builder /app/apps/backend/package.json .
-COPY --from=builder /app/apps/backend/package-lock.json .
-COPY --from=builder /app/apps/backend/prisma ./prisma
+COPY --from=builder /app/backend/dist ./dist
+COPY --from=builder /app/backend/package.json .
+COPY --from=builder /app/backend/package-lock.json .
+COPY --from=builder /app/backend/prisma ./prisma
 
 # 2. Install prod deps
 RUN npm ci --omit=dev
