@@ -4,9 +4,12 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:rebuild": "docker compose down && docker compose up --build -d",
+    "docker:restart": "docker compose restart",
+    "docker:restart:backend": "docker compose restart backend",
+    "docker:rebuild:backend": "docker compose build backend && docker compose up -d backend",
     "db:refresh": "docker compose exec backend sh -c 'npx prisma migrate dev && npx prisma generate'",
     "studio": "docker compose exec backend npx prisma studio"
-    },
+  },
   "devDependencies": {
     "typescript": "^5.8.3"
   }
