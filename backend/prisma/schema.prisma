@@ -31,8 +31,9 @@ datasource db {
 // ====================================================
 
 model Todo {
-  id        Int     @id @default(autoincrement()) // Unique identifier
-  title     String                              // The text of the to-do
-  completed Boolean @default(false)             // Whether it's done
-  createdAt DateTime @default(now())            // Timestamp for sorting, etc.
+  id        Int     @id @default(autoincrement())
+  title     String  @db.VarChar(255)
+  completed Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
