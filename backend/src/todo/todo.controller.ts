@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
+import { EditTodoTitleDto } from './dto/edit-todo.dto';
 
 @Controller('todos')
 export class TodoController {
@@ -25,7 +26,15 @@ export class TodoController {
     return this.todoService.createTodo(createTodoDto.title);
   }
 
-  @Patch(':id')
+  @Patch(':id/title')
+  editTodoTitle(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: EditTodoTitleDto,
+  ) {
+    return this.todoService.editTodoTitle(id, body.title);
+  }
+
+  @Patch(':id/toggle')
   toggleTodo(@Param('id', ParseIntPipe) id: number) {
     return this.todoService.toggleTodo(id);
   }
