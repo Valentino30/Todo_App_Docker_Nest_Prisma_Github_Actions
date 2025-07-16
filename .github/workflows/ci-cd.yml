@@ -17,7 +17,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: testdb
-        ports: ['5432:5432']
+        ports: ["5432:5432"]
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -46,12 +46,15 @@ jobs:
 
       - name: Run Prisma Migrate
         run: npx prisma migrate deploy
+        working-directory: ./backend
 
       - name: Run Tests
         run: npm run test
+        working-directory: ./backend
 
       - name: Build
         run: npm run build
+        working-directory: ./backend
 
   docker:
     needs: build-test
