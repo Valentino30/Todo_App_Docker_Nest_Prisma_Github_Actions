@@ -7,6 +7,7 @@ import {
   ExceptionFilter,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { Request, Response } from 'express';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -14,8 +15,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
   catch(exception: unknown, host: ArgumentsHost) {
     const httpContext = host.switchToHttp();
-    const response = httpContext.getResponse();
-    const request = httpContext.getRequest();
+    const response = httpContext.getResponse<Response>();
+    const request = httpContext.getRequest<Request>();
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
