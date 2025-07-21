@@ -1,12 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TodoService } from './todo.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { mockPrismaService } from '../../test/utils';
 
 describe('TodoService', () => {
   let service: TodoService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TodoService],
+      providers: [
+        TodoService,
+        {
+          provide: PrismaService,
+          useValue: mockPrismaService,
+        },
+      ],
     }).compile();
 
     service = module.get<TodoService>(TodoService);
